@@ -33,25 +33,29 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChatGeneral));
             panel1 = new Panel();
+            lstUsuarios = new ListBox();
             panel2 = new Panel();
             pictureBox2 = new PictureBox();
             button1 = new Button();
             pictureBox1 = new PictureBox();
-            textBox1 = new TextBox();
+            txtMensaje = new TextBox();
             notifyIcon1 = new NotifyIcon(components);
-            pictureBox3 = new PictureBox();
+            btnEnviar = new PictureBox();
             panel3 = new Panel();
+            btnCerrar = new Button();
             label1 = new Label();
+            lstMensajes = new ListBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnEnviar).BeginInit();
             panel3.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(lstUsuarios);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(pictureBox1);
@@ -59,6 +63,14 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(395, 726);
             panel1.TabIndex = 0;
+            // 
+            // lstUsuarios
+            // 
+            lstUsuarios.FormattingEnabled = true;
+            lstUsuarios.Location = new Point(23, 145);
+            lstUsuarios.Name = "lstUsuarios";
+            lstUsuarios.Size = new Size(335, 444);
+            lstUsuarios.TabIndex = 5;
             // 
             // panel2
             // 
@@ -98,40 +110,52 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // textBox1
+            // txtMensaje
             // 
-            textBox1.BackColor = Color.Black;
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Location = new Point(430, 658);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(1196, 48);
-            textBox1.TabIndex = 1;
+            txtMensaje.BackColor = Color.Gray;
+            txtMensaje.BorderStyle = BorderStyle.None;
+            txtMensaje.Location = new Point(430, 658);
+            txtMensaje.Multiline = true;
+            txtMensaje.Name = "txtMensaje";
+            txtMensaje.Size = new Size(1196, 48);
+            txtMensaje.TabIndex = 1;
             // 
             // notifyIcon1
             // 
             notifyIcon1.Text = "notifyIcon1";
             notifyIcon1.Visible = true;
             // 
-            // pictureBox3
+            // btnEnviar
             // 
-            pictureBox3.BackColor = SystemColors.ActiveCaptionText;
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(1586, 658);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Padding = new Padding(5, 10, 5, 5);
-            pictureBox3.Size = new Size(40, 48);
-            pictureBox3.TabIndex = 3;
-            pictureBox3.TabStop = false;
+            btnEnviar.BackColor = SystemColors.ActiveCaptionText;
+            btnEnviar.Image = (Image)resources.GetObject("btnEnviar.Image");
+            btnEnviar.Location = new Point(1586, 658);
+            btnEnviar.Name = "btnEnviar";
+            btnEnviar.Padding = new Padding(5, 10, 5, 5);
+            btnEnviar.Size = new Size(40, 48);
+            btnEnviar.TabIndex = 3;
+            btnEnviar.TabStop = false;
+            btnEnviar.Click += btnEnviar_Click;
             // 
             // panel3
             // 
             panel3.BackColor = Color.DarkCyan;
+            panel3.Controls.Add(btnCerrar);
             panel3.Controls.Add(label1);
             panel3.Location = new Point(396, 1);
             panel3.Name = "panel3";
             panel3.Size = new Size(1270, 94);
             panel3.TabIndex = 4;
+            // 
+            // btnCerrar
+            // 
+            btnCerrar.Location = new Point(1134, 24);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(108, 41);
+            btnCerrar.TabIndex = 1;
+            btnCerrar.Text = "btnCerrar";
+            btnCerrar.UseVisualStyleBackColor = true;
+            btnCerrar.Click += btnCerrar_Click;
             // 
             // label1
             // 
@@ -143,23 +167,33 @@
             label1.TabIndex = 0;
             label1.Text = "CHAT GENERAL";
             // 
+            // lstMensajes
+            // 
+            lstMensajes.FormattingEnabled = true;
+            lstMensajes.Location = new Point(399, 95);
+            lstMensajes.Name = "lstMensajes";
+            lstMensajes.Size = new Size(1269, 524);
+            lstMensajes.TabIndex = 5;
+            // 
             // ChatGeneral
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1662, 727);
+            Controls.Add(lstMensajes);
             Controls.Add(panel3);
-            Controls.Add(pictureBox3);
-            Controls.Add(textBox1);
+            Controls.Add(btnEnviar);
+            Controls.Add(txtMensaje);
             Controls.Add(panel1);
             Name = "ChatGeneral";
             Text = "Form1";
+            Load += ChatGeneral_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnEnviar).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ResumeLayout(false);
@@ -171,12 +205,15 @@
         private Panel panel1;
         private PictureBox pictureBox1;
         private Button button1;
-        private TextBox textBox1;
+        private TextBox txtMensaje;
         private NotifyIcon notifyIcon1;
         private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
+        private PictureBox btnEnviar;
         private Panel panel2;
         private Panel panel3;
         private Label label1;
+        private ListBox lstUsuarios;
+        private ListBox lstMensajes;
+        private Button btnCerrar;
     }
 }

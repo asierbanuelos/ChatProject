@@ -1,4 +1,9 @@
+using System.Net.Sockets;
+
+using ChatProject.NetWorking;  
+
 namespace ChatProject
+
 {
     public partial class Login : Form
     {
@@ -38,17 +43,21 @@ namespace ChatProject
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ChatGeneral chatGeneral = new ChatGeneral();
-            chatGeneral.Show();
+            if(string.IsNullOrEmpty(txtUsuario.Text))
+            {
+                MessageBox.Show("Sartu izen bat mesedez");
+                return;
+            }
 
 
+            string servidorIP = "127.0.0.1";
+            int puerto = 13000;
+            string izena = txtUsuario.Text;
+
+            ChatGeneral chatForm = new ChatGeneral(izena, servidorIP, puerto);
+            chatForm.Show();
 
         }
     }

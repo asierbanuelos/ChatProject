@@ -30,10 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             panel1 = new Panel();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            button1 = new Button();
-            label2 = new Label();
+            txtUsuario = new TextBox();
+            btnIniciarSesion = new Button();
             label1 = new Label();
             pictureBox1 = new PictureBox();
             panel1.SuspendLayout();
@@ -43,10 +41,8 @@
             // panel1
             // 
             panel1.BackColor = Color.DarkCyan;
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(label2);
+            panel1.Controls.Add(txtUsuario);
+            panel1.Controls.Add(btnIniciarSesion);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(579, 111);
@@ -55,51 +51,32 @@
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
-            // textBox2
+            // txtUsuario
             // 
-            textBox2.Location = new Point(41, 288);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(274, 27);
-            textBox2.TabIndex = 5;
+            txtUsuario.Location = new Point(73, 249);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(274, 27);
+            txtUsuario.TabIndex = 4;
             // 
-            // textBox1
+            // btnIniciarSesion
             // 
-            textBox1.Location = new Point(41, 198);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(274, 27);
-            textBox1.TabIndex = 4;
-            // 
-            // button1
-            // 
-            button1.Font = new Font("Gabriola", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(110, 356);
-            button1.Name = "button1";
-            button1.Size = new Size(205, 61);
-            button1.TabIndex = 3;
-            button1.Text = "Iniciar Sesión";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Gabriola", 18.2F, FontStyle.Bold);
-            label2.ForeColor = SystemColors.ActiveCaptionText;
-            label2.Location = new Point(41, 228);
-            label2.Name = "label2";
-            label2.Size = new Size(145, 57);
-            label2.TabIndex = 2;
-            label2.Text = "Contraseña";
+            btnIniciarSesion.Font = new Font("Gabriola", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnIniciarSesion.Location = new Point(110, 356);
+            btnIniciarSesion.Name = "btnIniciarSesion";
+            btnIniciarSesion.Size = new Size(205, 61);
+            btnIniciarSesion.TabIndex = 3;
+            btnIniciarSesion.Text = "Iniciar Sesión";
+            btnIniciarSesion.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Gabriola", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(41, 140);
+            label1.Location = new Point(163, 180);
             label1.Name = "label1";
-            label1.Size = new Size(93, 55);
+            label1.Size = new Size(79, 55);
             label1.TabIndex = 1;
-            label1.Text = "Correo";
+            label1.Text = "Izena";
             // 
             // pictureBox1
             // 
@@ -109,7 +86,6 @@
             pictureBox1.Size = new Size(177, 77);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // Login
             // 
@@ -130,10 +106,8 @@
 
         private Panel panel1;
         private PictureBox pictureBox1;
-        private TextBox textBox1;
-        private Button button1;
-        private Label label2;
+        private TextBox txtUsuario;
+        private Button btnIniciarSesion;
         private Label label1;
-        private TextBox textBox2;
     }
 }

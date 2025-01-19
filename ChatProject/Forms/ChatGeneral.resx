@@ -121,7 +121,7 @@
   <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABlOSURBVHhe7d1b
+        wAAADsABataJCQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABlOSURBVHhe7d1b
         qK55XQfw36iRk1GjjilKpQkmGYQ04kV1UXZQULpSotsgJqUMclK0sotuDMm8lGiiTAVvK6g8lJ1IpRNo
         jTbOlKZlTKbjiXGcimdmve21n/1fa72H5/c8/8PnA98bLWe9717ur893v7+9IgCAtTwxIl4SEb8SEW+P
         iD+LiLsj4ssR8YWI+ExE3BsR/xgR74yI10XEiyPiSfP/IACgbs+IiDsi4i8i4qsR8b9HZPr/e29E/FRE
@@ -377,10 +377,10 @@
   <metadata name="notifyIcon1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnEnviar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAF8SURBVEhLrdS9
+        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAF8SURBVEhLrdS9
         ThVBGMZxEqOJGqCTingb9BCsrNCCREgsCOSEG4CChI7CK7C0ULRTEi6CXr0HxIQYvhrzMxPfyZkd9pzs
         gf1Xu++888zsM8/O1FSP4Ale4wt+4X3dMzGV6CWuceU/Z3V/J0aIfsUb7OBvLPK5njsSPMZLfMAf3OAI
         65iNno0Q341FV2qdBl1Ei94svo21+LKnZU9u7CyaKcXj/RsOy4aJRTMt4tMNe7DfclAztVAbGIT4oKil
