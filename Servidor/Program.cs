@@ -8,22 +8,17 @@ using System.Collections.Generic;
 
 class MyTcpListener
 {
-    // Zerbitzariaren socket-a
     private TcpListener server;
-    // Bezeroen zerrenda gordetzeko
     private List<TcpClient> clients = new List<TcpClient>();
-    // Zerbitzaria martxan dagoen ala ez jakiteko
+    private List<string> clientNames = new List<string>(); // Lista para guardar los nombres
     private bool martxan = true;
+    private const int MaxClients = 2; // Límite de conexiones
 
     public MyTcpListener(IPAddress ip, int port)
     {
-        // TcpListener objektua sortu
         server = new TcpListener(ip, port);
     }
 
-    /**
-     * Zerbitzaria martxan jarri eta bezeroen konexioak itxaron
-     */
     public void Entzun()
     {
         try
@@ -33,12 +28,9 @@ class MyTcpListener
 
             while (martxan)
             {
-                // Bezeroa onartu era asinkronoan
-                TcpClient client = server.AcceptTcpClient();
-                clients.Add(client);
-                Console.WriteLine("Bezero berria konektatu da.");
+                TcpClient client = server.AcceptTcpClient(); // Aceptar conexión
 
-                // Bezeroaren konexioa kudeatzeko haria sortu
+                // Crear hilo para manejar la comunicación
                 Thread clientThread = new Thread(() => Komunikazioa(client));
                 clientThread.Start();
             }
@@ -49,9 +41,6 @@ class MyTcpListener
         }
     }
 
-    /**
-     * Bezero bakoitzaren komunikazioa kudeatu
-     */
     private void Komunikazioa(TcpClient client)
     {
         NetworkStream str = client.GetStream();
@@ -60,16 +49,40 @@ class MyTcpListener
 
         try
         {
+            // Leer el nombre del cliente
+            string clientName = sr.ReadLine();
+
+            // Verificar si el nombre ya está en uso
+            if (clientNames.Contains(clientName))
+            {
+                sw.WriteLine("Error: El nombre ya está en uso.");
+                client.Close();
+                Console.WriteLine($"Conexión rechazada. El nombre '{clientName}' ya está en uso.");
+                return;
+            }
+
+            // Si la lista de clientes está llena, rechazar la conexión
+            if (clients.Count >= MaxClients)
+            {
+                sw.WriteLine("Error: Máximo de conexiones alcanzado. Inténtelo más tarde.");
+                client.Close();
+                Console.WriteLine($"Conexión rechazada. Límite de {MaxClients} clientes alcanzado.");
+                return;
+            }
+
+            // Si no está en uso y hay espacio, agregarlo a la lista
+            clients.Add(client);
+            clientNames.Add(clientName);
+            Console.WriteLine($"Cliente {clientName} se ha unido. Conexiones actuales: {clients.Count}");
+
+            // Enviar un mensaje de bienvenida
+            sw.WriteLine("Conectado");
+
             string data;
             while ((data = sr.ReadLine()) != null)
             {
                 Console.WriteLine("Bezeroa: " + data);
-
-                // Bezeroari jasotako mezua letra larriz bidali
-                sw.WriteLine("Zerbitzaria: " + data.ToUpper());
-
-                // Mezua bezero guztiei bidali
-                Bidali($"Bezeroak esan du: {data}");
+                Bidali($"{clientName} esan du: {data}");
             }
         }
         catch (Exception e)
@@ -78,16 +91,14 @@ class MyTcpListener
         }
         finally
         {
-            // Bezeroa deskonektatu eta zerrendatik kendu
-            client.Close();
+            // Desconectar cliente y eliminar su nombre
             clients.Remove(client);
-            Console.WriteLine("Bezeroa deskonektatu da.");
+            clientNames.Remove(clientNames.Find(name => name == clientNames.Find(c => c == name)));
+            client.Close();
+            Console.WriteLine($"Cliente desconectado. Conexiones actuales: {clients.Count}");
         }
     }
 
-    /**
-     * Mezua bezero guztiei bidali
-     */
     private void Bidali(string mensaje)
     {
         if (string.IsNullOrEmpty(mensaje)) return;
@@ -106,9 +117,6 @@ class MyTcpListener
         }
     }
 
-    /**
-     * Zerbitzaria gelditu eta bezero guztiak deskonektatu
-     */
     public void Itxi()
     {
         martxan = false;
@@ -120,22 +128,16 @@ class MyTcpListener
         Console.WriteLine("Zerbitzaria itxi da.");
     }
 
-    /**
-     * Main metodoa, hemen hasten da programa.
-     */
-    public static int Main(string[] args)
+    public static void Main(string[] args)
     {
-        // Zerbitzariaren portu-zenbakia eta IP helbidea.
         int port = 13000;
         IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
-        // Zerbitzariaren objektua sortu
         MyTcpListener server = new MyTcpListener(localAddr, port);
         server.Entzun();
         server.Itxi();
 
         Console.WriteLine("\nSakatu <ENTER> irteteko...");
         Console.Read();
-        return 0;
     }
 }
