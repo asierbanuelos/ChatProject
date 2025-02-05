@@ -29,7 +29,12 @@ namespace Cliente
 
 
         }
+        public Chat()
+        {
+            InitializeComponent();
 
+
+        }
 
     }
 }
