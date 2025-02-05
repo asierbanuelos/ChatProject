@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatProject", "ChatProject\ChatProject.csproj", "{3F80DB42-805F-4990-B734-EBE8C5E2E185}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servidor", "Servidor\Servidor.csproj", "{F4C02CBE-7351-4AAD-A4A3-408A81C2062A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cliente", "Cliente\Cliente.csproj", "{6819C6DC-7616-4084-9F99-F1FF75E0B0EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3F80DB42-805F-4990-B734-EBE8C5E2E185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F80DB42-805F-4990-B734-EBE8C5E2E185}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F80DB42-805F-4990-B734-EBE8C5E2E185}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F80DB42-805F-4990-B734-EBE8C5E2E185}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4C02CBE-7351-4AAD-A4A3-408A81C2062A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4C02CBE-7351-4AAD-A4A3-408A81C2062A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4C02CBE-7351-4AAD-A4A3-408A81C2062A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4C02CBE-7351-4AAD-A4A3-408A81C2062A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6819C6DC-7616-4084-9F99-F1FF75E0B0EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6819C6DC-7616-4084-9F99-F1FF75E0B0EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6819C6DC-7616-4084-9F99-F1FF75E0B0EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6819C6DC-7616-4084-9F99-F1FF75E0B0EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

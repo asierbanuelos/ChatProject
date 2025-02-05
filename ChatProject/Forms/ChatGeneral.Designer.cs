@@ -60,30 +60,35 @@
             panel1.Controls.Add(button1);
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(0, 1);
+            panel1.Margin = new Padding(4, 4, 4, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(395, 726);
+            panel1.Size = new Size(494, 985);
             panel1.TabIndex = 0;
             // 
             // lstUsuarios
             // 
             lstUsuarios.FormattingEnabled = true;
-            lstUsuarios.Location = new Point(23, 145);
+            lstUsuarios.ItemHeight = 25;
+            lstUsuarios.Location = new Point(39, 218);
+            lstUsuarios.Margin = new Padding(4, 4, 4, 4);
             lstUsuarios.Name = "lstUsuarios";
-            lstUsuarios.Size = new Size(335, 444);
+            lstUsuarios.Size = new Size(418, 629);
             lstUsuarios.TabIndex = 5;
             // 
             // panel2
             // 
             panel2.Controls.Add(pictureBox2);
-            panel2.Location = new Point(401, 54);
+            panel2.Location = new Point(501, 68);
+            panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1279, 93);
+            panel2.Size = new Size(1599, 116);
             panel2.TabIndex = 4;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(422, 40);
+            pictureBox2.Location = new Point(528, 50);
+            pictureBox2.Margin = new Padding(4, 4, 4, 4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(0, 0);
             pictureBox2.TabIndex = 2;
@@ -93,9 +98,10 @@
             // 
             button1.BackColor = Color.Teal;
             button1.Font = new Font("Gabriola", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(1, 645);
+            button1.Location = new Point(4, 881);
+            button1.Margin = new Padding(4, 4, 4, 4);
             button1.Name = "button1";
-            button1.Size = new Size(394, 80);
+            button1.Size = new Size(492, 100);
             button1.TabIndex = 1;
             button1.Text = "Gaurko Zitak";
             button1.UseVisualStyleBackColor = false;
@@ -104,9 +110,10 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(108, 24);
+            pictureBox1.Location = new Point(135, 30);
+            pictureBox1.Margin = new Padding(4, 4, 4, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(174, 84);
+            pictureBox1.Size = new Size(218, 105);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -114,10 +121,11 @@
             // 
             txtMensaje.BackColor = Color.Gray;
             txtMensaje.BorderStyle = BorderStyle.None;
-            txtMensaje.Location = new Point(430, 658);
+            txtMensaje.Location = new Point(538, 822);
+            txtMensaje.Margin = new Padding(4, 4, 4, 4);
             txtMensaje.Multiline = true;
             txtMensaje.Name = "txtMensaje";
-            txtMensaje.Size = new Size(1196, 48);
+            txtMensaje.Size = new Size(1495, 60);
             txtMensaje.TabIndex = 1;
             // 
             // notifyIcon1
@@ -129,10 +137,11 @@
             // 
             btnEnviar.BackColor = SystemColors.ActiveCaptionText;
             btnEnviar.Image = (Image)resources.GetObject("btnEnviar.Image");
-            btnEnviar.Location = new Point(1586, 658);
+            btnEnviar.Location = new Point(1982, 822);
+            btnEnviar.Margin = new Padding(4, 4, 4, 4);
             btnEnviar.Name = "btnEnviar";
-            btnEnviar.Padding = new Padding(5, 10, 5, 5);
-            btnEnviar.Size = new Size(40, 48);
+            btnEnviar.Padding = new Padding(6, 12, 6, 6);
+            btnEnviar.Size = new Size(50, 60);
             btnEnviar.TabIndex = 3;
             btnEnviar.TabStop = false;
             btnEnviar.Click += btnEnviar_Click;
@@ -142,16 +151,18 @@
             panel3.BackColor = Color.DarkCyan;
             panel3.Controls.Add(btnCerrar);
             panel3.Controls.Add(label1);
-            panel3.Location = new Point(396, 1);
+            panel3.Location = new Point(495, 1);
+            panel3.Margin = new Padding(4, 4, 4, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1270, 94);
+            panel3.Size = new Size(1588, 118);
             panel3.TabIndex = 4;
             // 
             // btnCerrar
             // 
-            btnCerrar.Location = new Point(1134, 24);
+            btnCerrar.Location = new Point(1418, 30);
+            btnCerrar.Margin = new Padding(4, 4, 4, 4);
             btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new Size(108, 41);
+            btnCerrar.Size = new Size(135, 51);
             btnCerrar.TabIndex = 1;
             btnCerrar.Text = "btnCerrar";
             btnCerrar.UseVisualStyleBackColor = true;
@@ -161,31 +172,35 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Gabriola", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(34, 24);
+            label1.Location = new Point(42, 30);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(195, 55);
+            label1.Size = new Size(230, 66);
             label1.TabIndex = 0;
             label1.Text = "CHAT GENERAL";
             // 
             // lstMensajes
             // 
             lstMensajes.FormattingEnabled = true;
-            lstMensajes.Location = new Point(399, 95);
+            lstMensajes.ItemHeight = 25;
+            lstMensajes.Location = new Point(499, 119);
+            lstMensajes.Margin = new Padding(4, 4, 4, 4);
             lstMensajes.Name = "lstMensajes";
-            lstMensajes.Size = new Size(1269, 524);
+            lstMensajes.Size = new Size(1585, 654);
             lstMensajes.TabIndex = 5;
             // 
             // ChatGeneral
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(1662, 727);
+            ClientSize = new Size(2428, 983);
             Controls.Add(lstMensajes);
             Controls.Add(panel3);
             Controls.Add(btnEnviar);
             Controls.Add(txtMensaje);
             Controls.Add(panel1);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "ChatGeneral";
             Text = "Form1";
             Load += ChatGeneral_Load;
