@@ -120,6 +120,7 @@
             b_desconectar.TabIndex = 3;
             b_desconectar.Text = "DESCONECTAR";
             b_desconectar.UseVisualStyleBackColor = false;
+            b_desconectar.Click += b_desconectar_Click;
             // 
             // logo_Hilea
             // 

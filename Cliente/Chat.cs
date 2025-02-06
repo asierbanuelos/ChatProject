@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,9 +12,10 @@ namespace Cliente
         private NetworkStream stream;
         private StreamReader reader;
         private StreamWriter writer;
-        private String clientName;
+        private string clientName;
+        private bool isRunning = true; // Controla si el hilo debe seguir ejecutándose
 
-        public Chat(TcpClient client, NetworkStream stream, StreamReader reader, StreamWriter writer,String ClientName)
+        public Chat(TcpClient client, NetworkStream stream, StreamReader reader, StreamWriter writer, string ClientName)
         {
             InitializeComponent();
 
@@ -24,7 +23,7 @@ namespace Cliente
             this.stream = stream;
             this.reader = reader;
             this.writer = writer;
-            this.clientName = ClientName;  
+            this.clientName = ClientName;
             this.FormClosing += Chat_FormClosing;
 
             // Iniciar la tarea para recibir la lista de usuarios
@@ -35,24 +34,21 @@ namespace Cliente
         {
             try
             {
-                // Enviar "DISCONNECT" al servidor para indicar que el cliente se desconecta
+                isRunning = false; // Detiene el bucle de lectura
+
+                // Enviar "DISCONNECT" al servidor
                 if (client != null && client.Connected)
                 {
                     writer.WriteLine("DISCONNECT");
-                    writer.Flush(); // Asegura que el mensaje se envíe de inmediato
+                    writer.Flush();
                 }
 
-                // Cerrar el StreamReader, StreamWriter, y NetworkStream
+                // Cerrar recursos en orden
                 reader?.Close();
                 writer?.Close();
                 stream?.Close();
-
-                // Cerrar el TcpClient
                 client?.Close();
 
-                this.FormClosing -= Chat_FormClosing;
-
-                // Confirmar que todos los recursos fueron cerrados
                 Console.WriteLine("Conexión cerrada correctamente.");
             }
             catch (Exception ex)
@@ -61,8 +57,7 @@ namespace Cliente
             }
             finally
             {
-                // Cerrar el proceso si no se cierra correctamente
-                Application.Exit();
+                Application.Exit(); // Asegurar que la aplicación se cierre
             }
         }
 
@@ -70,78 +65,85 @@ namespace Cliente
         {
             try
             {
-                while (client.Connected)
+                while (isRunning && client.Connected)
                 {
-                    // Leer la respuesta del servidor
                     string serverResponse = reader.ReadLine();
+
+                    if (!isRunning) break; // Salir si el chat se está cerrando
 
                     if (serverResponse != null && serverResponse.StartsWith("USUARIOS_ACTIVOS:"))
                     {
-                        // Obtener la lista de usuarios
                         string usuariosString = serverResponse.Substring("USUARIOS_ACTIVOS:".Length);
                         string[] usuarios = usuariosString.Split(',');
 
-                        // Llamar al método para actualizar los usuarios en la interfaz
                         ActualizarUsuariosActivos(usuarios);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al recibir lista de usuarios: " + ex.Message);
+                if (isRunning) // Solo mostrar error si el chat no se estaba cerrando
+                {
+                    MessageBox.Show("Error al recibir lista de usuarios: " + ex.Message);
+                }
             }
         }
 
         public void ActualizarUsuariosActivos(string[] usuarios)
         {
-            string nombreCliente = clientName;  // Ejemplo: Aquí deberías tener el nombre del cliente conectado
-
-            // Asegurarse de que la actualización se haga en el hilo principal
             if (this.InvokeRequired)
             {
-                // Usar Invoke para llamar al método en el hilo principal
                 this.Invoke(new Action<string[]>(ActualizarUsuariosActivos), new object[] { usuarios });
             }
             else
             {
-                // Limpiar los Labels antes de actualizarlos
                 for (int i = 0; i < 15; i++)
                 {
                     string labelName = "l_activo" + (i + 1);
                     var label = this.Controls.Find(labelName, true).FirstOrDefault() as Label;
-
-                    if (label != null)
-                    {
-                        label.Text = ""; // Limpiar el texto de los labels
-                    }
+                    if (label != null) label.Text = "";
                 }
 
-                // Asignar los nuevos valores a los labels
                 for (int i = 0; i < usuarios.Length && i < 15; i++)
                 {
                     string labelName = "l_activo" + (i + 1);
                     var label = this.Controls.Find(labelName, true).FirstOrDefault() as Label;
-
                     if (label != null)
                     {
-                        // Si el nombre del usuario es el mismo que el del cliente, agregar "(Yo)"
-                        if (usuarios[i] == nombreCliente)
-                        {
-                            label.Text = usuarios[i] + " (Yo)";
-                        }
-                        else
-                        {
-                            label.Text = usuarios[i];
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show($"No se encontró el Label con el nombre {labelName}");
+                        label.Text = (usuarios[i] == clientName) ? usuarios[i] + " (Yo)" : usuarios[i];
                     }
                 }
             }
         }
 
+        private void b_desconectar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                isRunning = false; // Detiene el bucle de lectura
+
+                // Enviar "DISCONNECT" al servidor
+                if (client != null && client.Connected)
+                {
+                    writer.WriteLine("DISCONNECT");
+                    writer.Flush();
+                }
+
+                // Cerrar recursos en orden
+                reader?.Close();
+                writer?.Close();
+                stream?.Close();
+                client?.Close();
+
+                Console.WriteLine("Conexión cerrada correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cerrar conexión: " + ex.Message);
+            }
+
+            Application.Restart();  // Esto cerrará toda la aplicación y volverá a iniciar el formulario de Login
+        }
 
 
     }
