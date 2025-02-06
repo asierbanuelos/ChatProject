@@ -18,8 +18,17 @@ namespace Cliente
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
-        }
 
+            // Agregar el evento KeyDown al campo de texto (t_izena)
+            t_izena.KeyDown += new KeyEventHandler(t_izena_KeyDown);
+        }
+        private void t_izena_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                b_login_Click(sender, e); // Llama al código del botón al presionar Enter
+            }
+        }
         private void b_login_Click(object sender, EventArgs e)
         {
             string clientName = t_izena.Text.Trim();

@@ -86,7 +86,7 @@
             b_login.Name = "b_login";
             b_login.Size = new Size(166, 39);
             b_login.TabIndex = 0;
-            b_login.Text = "LOGIN";
+            b_login.Text = "INICIAR";
             b_login.UseVisualStyleBackColor = true;
             b_login.Click += b_login_Click;
             // 
