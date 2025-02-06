@@ -45,13 +45,17 @@ namespace Cliente
                 string serverResponse = reader.ReadLine();
 
                 // Verificar si la respuesta es "Conectado"
-                if (serverResponse == "Conectado")
+                // Verificar si la respuesta contiene "Conectado-" y extraer el nombre
+                if (serverResponse.StartsWith("Conectado-"))
                 {
+                    string[] parts = serverResponse.Split('-');  // Dividir la respuesta
+                    string serverName = parts[1];  // Obtener el nombre del cliente desde la respuesta
+
                     // Si la conexión es exitosa, cerrar el formulario de Login
                     this.Hide();
 
-                    // Crear y mostrar el formulario de Chat
-                    Chat chatForm = new Chat(client, stream, reader, writer);
+                    // Crear y mostrar el formulario de Chat, pasando el nombre del cliente
+                    Chat chatForm = new Chat(client, stream, reader, writer, serverName);
                     chatForm.Show();
                 }
                 else
@@ -70,9 +74,27 @@ namespace Cliente
         // Evento cuando el formulario de Login se cierra
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (client != null && client.Connected)
+            // Asegurarse de cerrar todo correctamente
+            try
             {
-                client.Close();  // Cerrar la conexión si está abierta
+                if (client != null && client.Connected)
+                {
+                    writer?.WriteLine("DISCONNECT");  // Intentar enviar mensaje de desconexión
+                    writer?.Flush();  // Asegurarse de que se haya enviado
+                    reader?.Close();  // Cerrar el lector
+                    writer?.Close();  // Cerrar el escritor
+                    stream?.Close();  // Cerrar el NetworkStream
+                    client?.Close();  // Cerrar el TcpClient
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cerrar conexión: {ex.Message}");
+            }
+            finally
+            {
+                // Asegurarse de que la aplicación se cierre correctamente
+                Application.Exit();
             }
         }
     }

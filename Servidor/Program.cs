@@ -76,14 +76,25 @@ class MyTcpListener
             Console.WriteLine($"Cliente {clientName} se ha unido. Conexiones actuales: {clients.Count}");
 
             // Enviar un mensaje de bienvenida
-            sw.WriteLine("Conectado");
+            sw.WriteLine($"Conectado-{clientName}");
+
+
+            // Enviar la lista de usuarios a todos los clientes
+            EnviarListaDeUsuarios();
+
 
             string data;
             while ((data = sr.ReadLine()) != null)
             {
-                Console.WriteLine("Bezeroa: " + data);
-                Bidali($"{clientName} esan du: {data}");
+                if (data == "DISCONNECT")  // 🔴 Cliente indica que se va
+                {
+                    Console.WriteLine($"Cliente {clientName} se desconectó.");
+                    break;  // Sale del bucle
+                }
+
+                Console.WriteLine($"{clientName}: {data}");
             }
+
         }
         catch (Exception e)
         {
@@ -91,29 +102,37 @@ class MyTcpListener
         }
         finally
         {
-            // Desconectar cliente y eliminar su nombre
-            clients.Remove(client);
-            clientNames.Remove(clientNames.Find(name => name == clientNames.Find(c => c == name)));
+            lock (clients)
+            {
+                int index = clients.IndexOf(client);
+                if (index != -1)
+                {
+                    clients.RemoveAt(index);
+                    clientNames.RemoveAt(index);
+
+                    // Enviar la lista actualizada a todos los clientes después de que un cliente se desconecte
+                    EnviarListaDeUsuarios();
+                }
+                else
+                {
+                    clients.Remove(client);
+                }
+            }
+
             client.Close();
-            Console.WriteLine($"Cliente desconectado. Conexiones actuales: {clients.Count}");
+            Console.WriteLine($"Conexiones actuales: {clients.Count}");
         }
     }
 
-    private void Bidali(string mensaje)
+    // Enviar la lista de usuarios a todos los clientes conectados
+    public void EnviarListaDeUsuarios()
     {
-        if (string.IsNullOrEmpty(mensaje)) return;
-
-        foreach (var client in clients)
+        foreach (var cliente in clients)
         {
-            try
-            {
-                StreamWriter sw = new StreamWriter(client.GetStream()) { AutoFlush = true };
-                sw.WriteLine(mensaje);
-            }
-            catch
-            {
-                Console.WriteLine("Errorea mezua bidaltzean bezero bati.");
-            }
+            NetworkStream stream = cliente.GetStream();
+            StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
+
+            writer.WriteLine("USUARIOS_ACTIVOS:" + string.Join(",", clientNames));
         }
     }
 
