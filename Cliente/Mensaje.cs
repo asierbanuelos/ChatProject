@@ -18,10 +18,12 @@
                 lblHora.BackColor = Color.LightGreen;
 
                 lblNombre.TextAlign = ContentAlignment.MiddleRight;
-                lblMensaje.TextAlign = ContentAlignment.MiddleRight;
                 lblHora.TextAlign = ContentAlignment.MiddleRight;
 
                 this.Anchor = AnchorStyles.Right | AnchorStyles.Top;
+
+                // Alineación del mensaje (no afecta el texto dentro del label)
+                lblMensaje.TextAlign = ContentAlignment.TopLeft;
             }
             else
             {
@@ -31,10 +33,12 @@
                 lblHora.BackColor = Color.LightGray;
 
                 lblNombre.TextAlign = ContentAlignment.MiddleLeft;
-                lblMensaje.TextAlign = ContentAlignment.MiddleLeft;
                 lblHora.TextAlign = ContentAlignment.MiddleLeft;
 
                 this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+
+                // Alineación del mensaje (no afecta el texto dentro del label)
+                lblMensaje.TextAlign = ContentAlignment.TopLeft;
             }
 
             // El evento Load ya está suscrito en el diseñador, no es necesario hacerlo aquí.

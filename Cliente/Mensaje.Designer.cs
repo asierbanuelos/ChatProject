@@ -41,6 +41,7 @@
             lblHora.Font = new Font("Arial", 8);
             lblHora.ForeColor = Color.Gray;
             lblHora.Location = new Point(250, 5);
+            lblHora.Text = "a";
 
             // Agregar controles
             Controls.Add(lblNombre);
