@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Cliente
         private string clientName;
         private bool isRunning = true; // Controla si el hilo debe seguir ejecutándose
 
-        public Chat(TcpClient client, NetworkStream stream, StreamReader reader, StreamWriter writer, string ClientName)
+        public Chat(TcpClient client, NetworkStream stream, StreamReader reader, StreamWriter writer, string clientName)
         {
             InitializeComponent();
 
@@ -23,73 +24,112 @@ namespace Cliente
             this.stream = stream;
             this.reader = reader;
             this.writer = writer;
-            this.clientName = ClientName;
+            this.clientName = clientName;
             this.FormClosing += Chat_FormClosing;
 
-            // Iniciar la tarea para recibir la lista de usuarios
-            Task.Run(() => RecibirListaDeUsuarios());
+            // Iniciar la tarea para recibir mensajes del servidor
+            Task.Run(() => RecibirMensajesServidor());
         }
 
         private void Chat_FormClosing(object sender, FormClosingEventArgs e)
         {
-            try
-            {
-                isRunning = false; // Detiene el bucle de lectura
+            EnviarDesconexion();
+            CerrarConexion();
+            Application.Exit(); // Cierra la aplicación completamente
+        }
 
-                // Enviar "DISCONNECT" al servidor
-                if (client != null && client.Connected)
+        private void b_desconectar_Click(object sender, EventArgs e)
+        {
+            EnviarDesconexion();
+            CerrarConexion();
+            Application.Restart(); // Reinicia la aplicación (para volver a login)
+        }
+
+        /// <summary>
+        /// Envía un mensaje de desconexión al servidor.
+        /// </summary>
+        private void EnviarDesconexion()
+        {
+            if (client != null && client.Connected)
+            {
+                try
                 {
-                    writer.WriteLine("DISCONNECT");
+                    writer.WriteLine($"DISC: {clientName}");
                     writer.Flush();
                 }
-
-                // Cerrar recursos en orden
-                reader?.Close();
-                writer?.Close();
-                stream?.Close();
-                client?.Close();
-
-                Console.WriteLine("Conexión cerrada correctamente.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cerrar conexión: " + ex.Message);
-            }
-            finally
-            {
-                Application.Exit(); // Asegurar que la aplicación se cierre
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al enviar desconexión: " + ex.Message);
+                }
             }
         }
 
-        public void RecibirListaDeUsuarios()
+        /// <summary>
+        /// Cierra todos los recursos de la conexión.
+        /// </summary>
+        private void CerrarConexion()
+        {
+            isRunning = false;
+            reader?.Close();
+            writer?.Close();
+            stream?.Close();
+            client?.Close();
+        }
+
+        /// <summary>
+        /// Escucha los mensajes del servidor y los procesa.
+        /// </summary>
+        private void RecibirMensajesServidor()
         {
             try
             {
                 while (isRunning && client.Connected)
                 {
-                    string serverResponse = reader.ReadLine();
+                    string serverMessage = reader.ReadLine();
+                    if (!isRunning) break;
 
-                    if (!isRunning) break; // Salir si el chat se está cerrando
-
-                    if (serverResponse != null && serverResponse.StartsWith("USUARIOS_ACTIVOS:"))
+                    if (!string.IsNullOrEmpty(serverMessage))
                     {
-                        string usuariosString = serverResponse.Substring("USUARIOS_ACTIVOS:".Length);
-                        string[] usuarios = usuariosString.Split(',');
-
-                        ActualizarUsuariosActivos(usuarios);
+                        ProcesarMensaje(serverMessage);
                     }
                 }
             }
             catch (Exception ex)
             {
-                if (isRunning) // Solo mostrar error si el chat no se estaba cerrando
+                if (isRunning)
                 {
-                    MessageBox.Show("Error al recibir lista de usuarios: " + ex.Message);
+                    MessageBox.Show("Error al recibir datos del servidor: " + ex.Message);
                 }
             }
         }
 
-        public void ActualizarUsuariosActivos(string[] usuarios)
+        /// <summary>
+        /// Procesa los mensajes recibidos del servidor.
+        /// </summary>
+        private void ProcesarMensaje(string message)
+        {
+            if (message.StartsWith("USUARIOS_ACTIVOS:"))
+            {
+                string usuariosString = message.Substring("USUARIOS_ACTIVOS:".Length);
+                string[] usuarios = usuariosString.Split(',');
+                ActualizarUsuariosActivos(usuarios);
+            }
+            else if (message.StartsWith("MSG:"))
+            {
+                string[] parts = message.Split(new[] { ':' }, 3); // Separar en 3 partes máximo
+                if (parts.Length == 3)
+                {
+                    string senderName = parts[1];
+                    string chatMessage = parts[2];
+                    MostrarMensaje(senderName, chatMessage);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Actualiza la lista de usuarios conectados.
+        /// </summary>
+        private void ActualizarUsuariosActivos(string[] usuarios)
         {
             if (this.InvokeRequired)
             {
@@ -116,35 +156,49 @@ namespace Cliente
             }
         }
 
-        private void b_desconectar_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Envía un mensaje de chat al servidor.
+        /// </summary>
+        private void EnviarMensaje(string mensaje)
         {
-            try
+            if (!string.IsNullOrWhiteSpace(mensaje))
             {
-                isRunning = false; // Detiene el bucle de lectura
-
-                // Enviar "DISCONNECT" al servidor
-                if (client != null && client.Connected)
+                try
                 {
-                    writer.WriteLine("DISCONNECT");
+                    string mensajeFormato = $"MSG:{clientName}:{mensaje}";
+                    writer.WriteLine(mensajeFormato);
                     writer.Flush();
                 }
-
-                // Cerrar recursos en orden
-                reader?.Close();
-                writer?.Close();
-                stream?.Close();
-                client?.Close();
-
-                Console.WriteLine("Conexión cerrada correctamente.");
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al enviar mensaje: " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cerrar conexión: " + ex.Message);
-            }
-
-            Application.Restart();  // Esto cerrará toda la aplicación y volverá a iniciar el formulario de Login
         }
 
+        /// <summary>
+        /// Muestra el mensaje en la interfaz de usuario.
+        /// </summary>
+        private void MostrarMensaje(string sender, string message)
+        {
+            /*
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string, string>(MostrarMensaje), new object[] { sender, message });
+            }
+            else
+            {
+                string formattedMessage = $"{sender}: {message}";
+                listBoxMensajes.Items.Add(formattedMessage);
+            }
+            */
+        }
 
+        private void b_enviar_Click(object sender, EventArgs e)
+        {
+            string mensaje = t_mensaje.Text.Trim();
+            EnviarMensaje(mensaje);
+            t_mensaje.Clear();
+        }
     }
 }

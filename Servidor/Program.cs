@@ -10,9 +10,9 @@ class MyTcpListener
 {
     private TcpListener server;
     private List<TcpClient> clients = new List<TcpClient>();
-    private List<string> clientNames = new List<string>(); // Lista para guardar los nombres
+    private List<string> clientNames = new List<string>();
     private bool martxan = true;
-    private const int MaxClients = 2; // Límite de conexiones
+    private const int MaxClients = 2;
 
     public MyTcpListener(IPAddress ip, int port)
     {
@@ -28,9 +28,7 @@ class MyTcpListener
 
             while (martxan)
             {
-                TcpClient client = server.AcceptTcpClient(); // Aceptar conexión
-
-                // Crear hilo para manejar la comunicación
+                TcpClient client = server.AcceptTcpClient();
                 Thread clientThread = new Thread(() => Komunikazioa(client));
                 clientThread.Start();
             }
@@ -49,52 +47,41 @@ class MyTcpListener
 
         try
         {
-            // Leer el nombre del cliente
             string clientName = sr.ReadLine();
-
-            // Verificar si el nombre ya está en uso
             if (clientNames.Contains(clientName))
             {
                 sw.WriteLine("Error: El nombre ya está en uso.");
                 client.Close();
-                Console.WriteLine($"Conexión rechazada. El nombre '{clientName}' ya está en uso.");
                 return;
             }
-
-            // Si la lista de clientes está llena, rechazar la conexión
             if (clients.Count >= MaxClients)
             {
                 sw.WriteLine("Error: Máximo de conexiones alcanzado. Inténtelo más tarde.");
                 client.Close();
-                Console.WriteLine($"Conexión rechazada. Límite de {MaxClients} clientes alcanzado.");
                 return;
             }
 
-            // Si no está en uso y hay espacio, agregarlo a la lista
             clients.Add(client);
             clientNames.Add(clientName);
             Console.WriteLine($"Cliente {clientName} se ha unido. Conexiones actuales: {clients.Count}");
-
-            // Enviar un mensaje de bienvenida
             sw.WriteLine($"Conectado-{clientName}");
-
-
-            // Enviar la lista de usuarios a todos los clientes
             EnviarListaDeUsuarios();
-
 
             string data;
             while ((data = sr.ReadLine()) != null)
             {
-                if (data == "DISCONNECT")  // 🔴 Cliente indica que se va
+                if (data.StartsWith("DISC:"))
                 {
-                    Console.WriteLine($"Cliente {clientName} se desconectó.");
-                    break;  // Sale del bucle
+                    string disconnectedUser = data.Split(':')[1];
+                    Console.WriteLine($"Cliente {disconnectedUser} se desconectó.");
+                    break;
                 }
-
-                Console.WriteLine($"{clientName}: {data}");
+                else if (data.StartsWith("MSG:"))
+                {
+                    Console.WriteLine(data);
+                    EnviarMensajeATodos(data);
+                }
             }
-
         }
         catch (Exception e)
         {
@@ -104,35 +91,45 @@ class MyTcpListener
         {
             lock (clients)
             {
-                int index = clients.IndexOf(client);
+                int index = clientNames.IndexOf(clientNames.Find(name => name == clientNames.Find(n => n == clientNames[clients.IndexOf(client)])));
                 if (index != -1)
                 {
                     clients.RemoveAt(index);
                     clientNames.RemoveAt(index);
-
-                    // Enviar la lista actualizada a todos los clientes después de que un cliente se desconecte
                     EnviarListaDeUsuarios();
                 }
-                else
-                {
-                    clients.Remove(client);
-                }
             }
-
             client.Close();
             Console.WriteLine($"Conexiones actuales: {clients.Count}");
         }
     }
 
-    // Enviar la lista de usuarios a todos los clientes conectados
     public void EnviarListaDeUsuarios()
+    {
+        string usuarios = "USUARIOS_ACTIVOS:" + string.Join(",", clientNames);
+        foreach (var cliente in clients)
+        {
+            try
+            {
+                NetworkStream stream = cliente.GetStream();
+                StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
+                writer.WriteLine(usuarios);
+            }
+            catch { }
+        }
+    }
+
+    public void EnviarMensajeATodos(string mensaje)
     {
         foreach (var cliente in clients)
         {
-            NetworkStream stream = cliente.GetStream();
-            StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
-
-            writer.WriteLine("USUARIOS_ACTIVOS:" + string.Join(",", clientNames));
+            try
+            {
+                NetworkStream stream = cliente.GetStream();
+                StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
+                writer.WriteLine(mensaje);
+            }
+            catch { }
         }
     }
 
@@ -151,11 +148,9 @@ class MyTcpListener
     {
         int port = 13000;
         IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-
         MyTcpListener server = new MyTcpListener(localAddr, port);
         server.Entzun();
         server.Itxi();
-
         Console.WriteLine("\nSakatu <ENTER> irteteko...");
         Console.Read();
     }
