@@ -378,6 +378,7 @@
             // 
             // p_central
             // 
+            p_central.AutoScroll = true;
             p_central.BackColor = Color.PowderBlue;
             p_central.Dock = DockStyle.Fill;
             p_central.Location = new Point(3, 107);

@@ -27,6 +27,8 @@ namespace Cliente
             this.clientName = clientName;
             this.FormClosing += Chat_FormClosing;
 
+            this.t_mensaje.KeyDown += new System.Windows.Forms.KeyEventHandler(this.t_mensaje_KeyDown);
+
             // Iniciar la tarea para recibir mensajes del servidor
             Task.Run(() => RecibirMensajesServidor());
         }
@@ -90,7 +92,7 @@ namespace Cliente
 
                     if (!string.IsNullOrEmpty(serverMessage))
                     {
-                        ProcesarMensaje(serverMessage);
+                        ProcesarMensaje(serverMessage); // Procesar todos los tipos de mensajes aquí
                     }
                 }
             }
@@ -165,6 +167,7 @@ namespace Cliente
             {
                 try
                 {
+                    t_mensaje.Clear();
                     string mensajeFormato = $"MSG:{clientName}:{mensaje}";
                     writer.WriteLine(mensajeFormato);
                     writer.Flush();
@@ -176,29 +179,76 @@ namespace Cliente
             }
         }
 
+
+        private int posicionY = 10;  // Posición inicial para el primer mensaje
+
         /// <summary>
         /// Muestra el mensaje en la interfaz de usuario.
         /// </summary>
         private void MostrarMensaje(string sender, string message)
         {
-            /*
             if (this.InvokeRequired)
             {
                 this.Invoke(new Action<string, string>(MostrarMensaje), new object[] { sender, message });
             }
             else
             {
-                string formattedMessage = $"{sender}: {message}";
-                listBoxMensajes.Items.Add(formattedMessage);
+                // Crear un UserControl para mostrar el mensaje en el panel central
+                bool esMio = sender == clientName;
+                Mensaje nuevoMensaje = new Mensaje(sender, message, esMio);
+
+                // Establecer la posición Y del mensaje (se ajusta con cada nuevo mensaje)
+                nuevoMensaje.Top = posicionY;
+
+                // Agregar el nuevo mensaje al panel p_central
+                p_central.Controls.Add(nuevoMensaje);
+
+                // Desplazar la posición para el siguiente mensaje
+                posicionY += nuevoMensaje.Height + 5; // Dejar un pequeño margen entre los mensajes
+
+                // Desplazar la vista para mostrar el nuevo mensaje
+                p_central.ScrollControlIntoView(nuevoMensaje);
             }
-            */
         }
+        /*
+        /// <summary>
+        /// Muestra el mensaje en la interfaz de usuario.
+        /// </summary>
+        private void MostrarMensaje(string sender, string message)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string, string>(MostrarMensaje), new object[] { sender, message });
+            }
+            else
+            {
+                // Crear un UserControl para mostrar el mensaje en el panel central
+                bool esMio = sender == clientName;
+                Mensaje nuevoMensaje = new Mensaje(sender, message, esMio);
+
+                // Agregar el nuevo mensaje al panel p_central
+                p_central.Controls.Add(nuevoMensaje);
+
+                // Desplazar la vista para mostrar el nuevo mensaje
+                p_central.ScrollControlIntoView(nuevoMensaje);
+            }
+        }
+        */
 
         private void b_enviar_Click(object sender, EventArgs e)
         {
-            string mensaje = t_mensaje.Text.Trim();
-            EnviarMensaje(mensaje);
-            t_mensaje.Clear();
+            EnviarMensaje(t_mensaje.Text);
+        }
+
+        /// <summary>
+        /// Permite enviar mensajes con la tecla Enter.
+        /// </summary>
+        private void t_mensaje_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                EnviarMensaje(t_mensaje.Text); // Ahora pasa el texto del mensaje
+            }
         }
     }
 }
