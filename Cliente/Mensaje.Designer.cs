@@ -54,8 +54,7 @@
             Padding = new Padding(10);
             Margin = new Padding(5);
 
-            // Suscribir al evento Load
-            this.Load += new System.EventHandler(this.Mensaje_Load);
+            
 
 
 

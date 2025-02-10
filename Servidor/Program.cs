@@ -91,9 +91,12 @@ class MyTcpListener
         {
             lock (clients)
             {
-                int index = clientNames.IndexOf(clientNames.Find(name => name == clientNames.Find(n => n == clientNames[clients.IndexOf(client)])));
+                // Buscar el índice de este cliente en la lista 'clients'
+                int index = clients.IndexOf(client);
+
                 if (index != -1)
                 {
+                    // Eliminar cliente y nombre de las listas si el índice es válido
                     clients.RemoveAt(index);
                     clientNames.RemoveAt(index);
                     EnviarListaDeUsuarios();
@@ -102,6 +105,7 @@ class MyTcpListener
             client.Close();
             Console.WriteLine($"Conexiones actuales: {clients.Count}");
         }
+
     }
 
     public void EnviarListaDeUsuarios()

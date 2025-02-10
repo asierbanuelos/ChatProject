@@ -193,47 +193,16 @@ namespace Cliente
             }
             else
             {
-                // Crear un UserControl para mostrar el mensaje en el panel central
                 bool esMio = sender == clientName;
                 Mensaje nuevoMensaje = new Mensaje(sender, message, esMio);
 
-                // Establecer la posición Y del mensaje (se ajusta con cada nuevo mensaje)
-                nuevoMensaje.Top = posicionY;
-
-                // Agregar el nuevo mensaje al panel p_central
-                p_central.Controls.Add(nuevoMensaje);
-
-                // Desplazar la posición para el siguiente mensaje
-                posicionY += nuevoMensaje.Height + 5; // Dejar un pequeño margen entre los mensajes
-
-                // Desplazar la vista para mostrar el nuevo mensaje
-                p_central.ScrollControlIntoView(nuevoMensaje);
+                nuevoMensaje.AgregarMensaje(p_central);  // Agregar el mensaje al FlowLayoutPanel
             }
         }
-        /*
-        /// <summary>
-        /// Muestra el mensaje en la interfaz de usuario.
-        /// </summary>
-        private void MostrarMensaje(string sender, string message)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action<string, string>(MostrarMensaje), new object[] { sender, message });
-            }
-            else
-            {
-                // Crear un UserControl para mostrar el mensaje en el panel central
-                bool esMio = sender == clientName;
-                Mensaje nuevoMensaje = new Mensaje(sender, message, esMio);
 
-                // Agregar el nuevo mensaje al panel p_central
-                p_central.Controls.Add(nuevoMensaje);
 
-                // Desplazar la vista para mostrar el nuevo mensaje
-                p_central.ScrollControlIntoView(nuevoMensaje);
-            }
-        }
-        */
+
+
 
         private void b_enviar_Click(object sender, EventArgs e)
         {

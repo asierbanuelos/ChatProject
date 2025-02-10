@@ -52,10 +52,10 @@
             tableLayoutPanelMedioGeneral = new TableLayoutPanel();
             p_titulo = new Panel();
             titulo = new Label();
-            p_central = new Panel();
             tableLayoutPanelMedioAbajo = new TableLayoutPanel();
             b_mandar = new Button();
             t_mensaje = new TextBox();
+            p_central = new FlowLayoutPanel();
             tableLayoutPanelDerechaGeneral = new TableLayoutPanel();
             logo_Santurtzi = new Panel();
             l_citas = new Label();
@@ -343,8 +343,8 @@
             tableLayoutPanelMedioGeneral.ColumnCount = 1;
             tableLayoutPanelMedioGeneral.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanelMedioGeneral.Controls.Add(p_titulo, 0, 0);
-            tableLayoutPanelMedioGeneral.Controls.Add(p_central, 0, 1);
             tableLayoutPanelMedioGeneral.Controls.Add(tableLayoutPanelMedioAbajo, 0, 2);
+            tableLayoutPanelMedioGeneral.Controls.Add(p_central, 0, 1);
             tableLayoutPanelMedioGeneral.Dock = DockStyle.Fill;
             tableLayoutPanelMedioGeneral.Location = new Point(282, 3);
             tableLayoutPanelMedioGeneral.Name = "tableLayoutPanelMedioGeneral";
@@ -375,16 +375,6 @@
             titulo.TabIndex = 2;
             titulo.Text = "CHAT PELUQUERIA";
             titulo.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // p_central
-            // 
-            p_central.AutoScroll = true;
-            p_central.BackColor = Color.PowderBlue;
-            p_central.Dock = DockStyle.Fill;
-            p_central.Location = new Point(3, 107);
-            p_central.Name = "p_central";
-            p_central.Size = new Size(1292, 881);
-            p_central.TabIndex = 1;
             // 
             // tableLayoutPanelMedioAbajo
             // 
@@ -420,6 +410,26 @@
             t_mensaje.Name = "t_mensaje";
             t_mensaje.Size = new Size(1156, 31);
             t_mensaje.TabIndex = 0;
+            // 
+            // p_central
+            // 
+            p_central.AutoScroll = true;
+            p_central.HorizontalScroll.Enabled = false;  // Desactiva el scroll horizontal
+            p_central.BackColor = Color.LightSkyBlue;
+            p_central.Dock = DockStyle.Fill;
+            p_central.FlowDirection = FlowDirection.TopDown;
+            p_central.Location = new Point(3, 107);
+            p_central.Name = "p_central";
+            p_central.Size = new Size(1292, 881);
+            p_central.TabIndex = 3;
+            p_central.WrapContents = false;
+
+            // Ajustar el contenido para que no se desborde
+            foreach (Control control in p_central.Controls)
+            {
+                control.Width = p_central.ClientSize.Width; // Establecer el ancho de los controles al ancho del contenedor
+            }
+
             // 
             // tableLayoutPanelDerechaGeneral
             // 
@@ -510,7 +520,6 @@
         private Panel logo_Santurtzi;
         private Label l_citas;
         private Button b_actualizar;
-        private Panel p_central;
         private TableLayoutPanel tableLayoutPanelMedioAbajo;
         private TextBox t_mensaje;
         private Button b_mandar;
@@ -531,5 +540,7 @@
         private Label l_activo3;
         private Label l_activo2;
         private Label l_activo1;
+        private FlowLayoutPanel p_central;
+
     }
 }
