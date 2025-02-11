@@ -20,6 +20,7 @@ namespace Cliente
         public Chat(TcpClient client, NetworkStream stream, StreamReader reader, StreamWriter writer, string clientName)
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
 
             this.client = client;
             this.stream = stream;
