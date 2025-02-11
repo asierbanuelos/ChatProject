@@ -60,6 +60,7 @@
             logo_Santurtzi = new Panel();
             l_citas = new Label();
             b_actualizar = new Button();
+            listBoxCitas = new ListBox();
             tableLayoutPanelPrincipal.SuspendLayout();
             tableLayoutPanelIzquierdaGeneral.SuspendLayout();
             tableLayoutPanelActivos.SuspendLayout();
@@ -402,6 +403,7 @@
             b_mandar.Size = new Size(124, 34);
             b_mandar.TabIndex = 1;
             b_mandar.UseVisualStyleBackColor = false;
+            b_mandar.Click += b_mandar_Click_1;
             // 
             // t_mensaje
             // 
@@ -414,7 +416,6 @@
             // p_central
             // 
             p_central.AutoScroll = true;
-            p_central.HorizontalScroll.Enabled = false;  // Desactiva el scroll horizontal
             p_central.BackColor = Color.LightSkyBlue;
             p_central.Dock = DockStyle.Fill;
             p_central.FlowDirection = FlowDirection.TopDown;
@@ -423,13 +424,6 @@
             p_central.Size = new Size(1292, 881);
             p_central.TabIndex = 3;
             p_central.WrapContents = false;
-
-            // Ajustar el contenido para que no se desborde
-            foreach (Control control in p_central.Controls)
-            {
-                control.Width = p_central.ClientSize.Width; // Establecer el ancho de los controles al ancho del contenedor
-            }
-
             // 
             // tableLayoutPanelDerechaGeneral
             // 
@@ -438,6 +432,7 @@
             tableLayoutPanelDerechaGeneral.Controls.Add(logo_Santurtzi, 0, 0);
             tableLayoutPanelDerechaGeneral.Controls.Add(l_citas, 0, 1);
             tableLayoutPanelDerechaGeneral.Controls.Add(b_actualizar, 0, 3);
+            tableLayoutPanelDerechaGeneral.Controls.Add(listBoxCitas, 0, 2);
             tableLayoutPanelDerechaGeneral.Dock = DockStyle.Fill;
             tableLayoutPanelDerechaGeneral.Location = new Point(1586, 3);
             tableLayoutPanelDerechaGeneral.Name = "tableLayoutPanelDerechaGeneral";
@@ -484,6 +479,18 @@
             b_actualizar.TabIndex = 4;
             b_actualizar.Text = "ACTUALIZAR";
             b_actualizar.UseVisualStyleBackColor = false;
+            b_actualizar.Click += b_actualizar_Click;
+            // 
+            // listBoxCitas
+            // 
+            listBoxCitas.BackColor = Color.RoyalBlue;
+            listBoxCitas.Dock = DockStyle.Fill;
+            listBoxCitas.FormattingEnabled = true;
+            listBoxCitas.ItemHeight = 25;
+            listBoxCitas.Location = new Point(3, 315);
+            listBoxCitas.Name = "listBoxCitas";
+            listBoxCitas.Size = new Size(269, 620);
+            listBoxCitas.TabIndex = 5;
             // 
             // Chat
             // 
@@ -541,6 +548,6 @@
         private Label l_activo2;
         private Label l_activo1;
         private FlowLayoutPanel p_central;
-
+        private ListBox listBoxCitas;
     }
 }

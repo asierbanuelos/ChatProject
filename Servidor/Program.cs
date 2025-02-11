@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Collections.Generic;
+using System.Net.Http;
+
 
 class MyTcpListener
 {
@@ -12,7 +15,8 @@ class MyTcpListener
     private List<TcpClient> clients = new List<TcpClient>();
     private List<string> clientNames = new List<string>();
     private bool martxan = true;
-    private const int MaxClients = 2;
+    private const int MaxClients = 15;
+    private static readonly HttpClient httpClient = new HttpClient();
 
     public MyTcpListener(IPAddress ip, int port)
     {
@@ -81,6 +85,13 @@ class MyTcpListener
                     Console.WriteLine(data);
                     EnviarMensajeATodos(data);
                 }
+                else if (data == "API:")
+                {
+                    Console.WriteLine($"Cliente {clientName} solicitó citas.");
+                    string citasJson = ObtenerCitasDeLaAPI();
+                    sw.WriteLine("API:" + citasJson);
+                    sw.Flush();
+                }
             }
         }
         catch (Exception e)
@@ -106,6 +117,43 @@ class MyTcpListener
             Console.WriteLine($"Conexiones actuales: {clients.Count}");
         }
 
+    }
+
+    /// <summary>
+    /// Llama a la API y devuelve los datos en el formato adecuado.
+    /// </summary>
+    private string ObtenerCitasDeLaAPI()
+    {
+        try
+        {
+            HttpResponseMessage response = httpClient.GetAsync("http://localhost:8080/api/hitzorduak/hoy").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                var citas = JsonConvert.DeserializeObject<List<dynamic>>(json);
+
+                var citasFiltradas = new List<object>();
+                foreach (var cita in citas)
+                {
+                    citasFiltradas.Add(new
+                    {
+                        izena = (string)cita.izena,
+                        hasieraOrdua = (string)cita.hasieraOrdua,
+                        amaieraOrdua = (string)cita.amaieraOrdua
+                    });
+                }
+
+                return JsonConvert.SerializeObject(citasFiltradas);
+            }
+            else
+            {
+                return "Error: No se pudo obtener citas de la API.";
+            }
+        }
+        catch (Exception ex)
+        {
+            return "Error: " + ex.Message;
+        }
     }
 
     public void EnviarListaDeUsuarios()
