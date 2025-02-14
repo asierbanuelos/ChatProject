@@ -9,66 +9,65 @@
             lblMensaje.Text = mensaje;
             lblHora.Text = DateTime.Now.ToString("HH:mm");
 
-            // Cambiar el color y la alineación
+            // Kolorea eta lerrokatzea aldatzea
             if (esMio)
             {
-                this.BackColor = Color.LightGreen;
+                this.BackColor = Color.LightGreen;  // Mezua erabiltzailearena bada, berde argia jarri
                 lblNombre.TextAlign = ContentAlignment.MiddleRight;
                 lblMensaje.TextAlign = ContentAlignment.MiddleRight;
                 lblHora.TextAlign = ContentAlignment.MiddleRight;
             }
             else
             {
-                this.BackColor = Color.LightGray;
+                this.BackColor = Color.LightGray;  // Bestelako mezuak gris kolorekoa izango dira
                 lblNombre.TextAlign = ContentAlignment.MiddleLeft;
                 lblMensaje.TextAlign = ContentAlignment.MiddleLeft;
                 lblHora.TextAlign = ContentAlignment.MiddleLeft;
             }
 
-            // Establecer un ancho fijo para el mensaje
-            this.Width = 350;  // Ajuste el ancho del mensaje (puedes personalizar este valor)
+            // Mezuaren zabalera finkoa ezartzea
+            this.Width = 350;  // Mezuaren zabalera definitzen da (aldatu daiteke beharrezkoa bada)
 
-            // Asegurarse de que el mensaje no se expanda horizontalmente
-            lblMensaje.MaximumSize = new Size(this.Width, 0); // Limitar el tamaño del texto solo en horizontal
-            lblMensaje.AutoSize = false;  // Impide que el tamaño se ajuste automáticamente en ancho, pero sí en altura
+            // Mezuaren testua horizontalki ez zabaltzeko neurriak hartu
+            lblMensaje.MaximumSize = new Size(this.Width, 0); // Zabalera mugatzea
+            lblMensaje.AutoSize = false;  // Zabalera automatikoki ez da egokituko, baina altuera bai
 
-            // Ajustar la altura según el contenido del mensaje
-            lblMensaje.Height = lblMensaje.PreferredHeight; // Ajustar la altura de lblMensaje según su contenido
+            // Mezuaren edukia kontuan hartuta altuera doitzea
+            lblMensaje.Height = lblMensaje.PreferredHeight; // Testuaren arabera altuera egokitu
 
-            // Ajustar la altura total del control
-            this.Height = lblNombre.Height + lblMensaje.Height + lblHora.Height + 10; // Ajuste de altura con márgenes
+            // Kontrol osoaren altuera doitzea
+            this.Height = lblNombre.Height + lblMensaje.Height + lblHora.Height + 10; // Altueraren doikuntza marjinekin
         }
 
         public void AgregarMensaje(FlowLayoutPanel panel)
         {
-            // Crear un contenedor para cada mensaje
+            // Mezu bakoitzerako edukiontzi bat sortzea
             Panel contenedor = new Panel();
-            contenedor.AutoSize = true;  // El contenedor se ajusta al tamaño del mensaje
-            contenedor.MaximumSize = new Size(panel.ClientSize.Width, 0);  // Evitar que el mensaje se expanda más allá del panel
+            contenedor.AutoSize = true;  // Edukiontzia automatikoki egokitzen da mezuaren neurrira
+            contenedor.MaximumSize = new Size(panel.ClientSize.Width, 0);  // Edukiontziak panelaren neurria ez gainditzeko
 
-            // Establecer márgenes para la alineación de los mensajes
-            if (this.BackColor == Color.LightGreen) // Mensaje propio
+            // Mezuen lerrokatzea ezartzeko marjinak
+            if (this.BackColor == Color.LightGreen) // Erabiltzailearen mezua bada
             {
-                contenedor.Margin = new Padding(panel.ClientSize.Width - this.Width, 0, 0, 0);  // Alinear a la derecha
+                contenedor.Margin = new Padding(panel.ClientSize.Width - this.Width, 0, 0, 0);  // Eskuinean lerrokatu
             }
-            else // Mensaje de otro usuario
+            else // Beste erabiltzaile baten mezua bada
             {
-                contenedor.Margin = new Padding(0, 0, panel.ClientSize.Width - this.Width, 0);  // Alinear a la izquierda
+                contenedor.Margin = new Padding(0, 0, panel.ClientSize.Width - this.Width, 0);  // Ezkerrean lerrokatu
             }
 
-            // Agregar el mensaje al contenedor
+            // Mezua edukiontzira gehitzea
             contenedor.Controls.Add(this);
 
-            // Agregar el contenedor al FlowLayoutPanel
+            // Edukiontzia FlowLayoutPanel-era gehitzea
             panel.Controls.Add(contenedor);
 
-            // Desplazar el panel para que el último mensaje sea visible
+            // Panela behera mugitzea azken mezua beti ikusgai egon dadin
             panel.ScrollControlIntoView(this);
 
-            // Desactivar el scroll horizontal en el FlowLayoutPanel
+            // FlowLayoutPanel-eko eskualdatze horizontala desgaitzea
             panel.AutoScroll = true;
-            panel.HorizontalScroll.Visible = false;  // Desactivar la barra de desplazamiento horizontal
+            panel.HorizontalScroll.Visible = false;  // Eskualdatze barra horizontala ezkutatu
         }
     }
-
 }

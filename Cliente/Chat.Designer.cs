@@ -119,7 +119,7 @@
             b_desconectar.Name = "b_desconectar";
             b_desconectar.Size = new Size(267, 100);
             b_desconectar.TabIndex = 3;
-            b_desconectar.Text = "DESCONECTAR";
+            b_desconectar.Text = "DESKONEKTATU";
             b_desconectar.UseVisualStyleBackColor = false;
             b_desconectar.Click += b_desconectar_Click;
             // 
@@ -143,7 +143,7 @@
             Activos.Name = "Activos";
             Activos.Size = new Size(267, 104);
             Activos.TabIndex = 1;
-            Activos.Text = "ACTIVOS:";
+            Activos.Text = "AKTIBOAK:";
             Activos.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanelActivos
@@ -374,7 +374,7 @@
             titulo.Name = "titulo";
             titulo.Size = new Size(1292, 98);
             titulo.TabIndex = 2;
-            titulo.Text = "CHAT PELUQUERIA";
+            titulo.Text = "TXATA ILE-APAINDEGIA";
             titulo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanelMedioAbajo
@@ -403,7 +403,7 @@
             b_mandar.Size = new Size(124, 34);
             b_mandar.TabIndex = 1;
             b_mandar.UseVisualStyleBackColor = false;
-            b_mandar.Click += b_mandar_Click_1;
+            b_mandar.Click += b_mandar_Click;
             // 
             // t_mensaje
             // 
@@ -464,7 +464,7 @@
             l_citas.Name = "l_citas";
             l_citas.Size = new Size(269, 104);
             l_citas.TabIndex = 2;
-            l_citas.Text = "CITAS:";
+            l_citas.Text = "HITZORDUAK:";
             l_citas.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // b_actualizar
@@ -477,7 +477,7 @@
             b_actualizar.Name = "b_actualizar";
             b_actualizar.Size = new Size(269, 100);
             b_actualizar.TabIndex = 4;
-            b_actualizar.Text = "ACTUALIZAR";
+            b_actualizar.Text = "EGUNERATU";
             b_actualizar.UseVisualStyleBackColor = false;
             b_actualizar.Click += b_actualizar_Click;
             // 
@@ -499,7 +499,7 @@
             ClientSize = new Size(1864, 1050);
             Controls.Add(tableLayoutPanelPrincipal);
             Name = "Chat";
-            Text = "Fp Santurtzi Hileapandegia Chat";
+            Text = "Fp Santurtzi ile-apaindegi txata";
             tableLayoutPanelPrincipal.ResumeLayout(false);
             tableLayoutPanelIzquierdaGeneral.ResumeLayout(false);
             tableLayoutPanelIzquierdaGeneral.PerformLayout();
