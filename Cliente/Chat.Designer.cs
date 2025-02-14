@@ -138,7 +138,7 @@
             // 
             Activos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Activos.AutoSize = true;
-            Activos.Font = new Font("Verdana", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Activos.Font = new Font("Verdana", 16F, FontStyle.Bold);
             Activos.Location = new Point(3, 208);
             Activos.Name = "Activos";
             Activos.Size = new Size(267, 104);
@@ -459,7 +459,7 @@
             // 
             l_citas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             l_citas.AutoSize = true;
-            l_citas.Font = new Font("Verdana", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            l_citas.Font = new Font("Verdana", 16F, FontStyle.Bold);
             l_citas.Location = new Point(3, 208);
             l_citas.Name = "l_citas";
             l_citas.Size = new Size(269, 104);
