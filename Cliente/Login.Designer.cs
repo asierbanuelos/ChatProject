@@ -127,7 +127,7 @@
             ClientSize = new Size(1636, 936);
             Controls.Add(tableLayoutPanelGlobal);
             Name = "Login";
-            Text = "Fp Santurtzi Hileapandegia Login";
+            Text = "Fp Santurtzi il-eapandegia login";
             tableLayoutPanelGlobal.ResumeLayout(false);
             tableDelMedio.ResumeLayout(false);
             tableDelMedio.PerformLayout();
