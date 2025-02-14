@@ -157,7 +157,6 @@ class MyTcpListener
                 return "Gaur ez daude zitak";
             }
 
-            // Datuak egituratutako formatua izateko moldatzen dira
             var citasFiltradas = new List<object>();
 
             foreach (var cita in citas)
@@ -172,11 +171,21 @@ class MyTcpListener
 
             return JsonConvert.SerializeObject(citasFiltradas);
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            return "Error: " + ex.Message;
+            return "Error: No se pudo conectar a la API";
+        }
+        catch (TaskCanceledException)
+        {
+            return "Error: No se pudo conectar a la API";
+        }
+        catch (Exception)
+        {
+            return "Error: No se pudo conectar a la API";
         }
     }
+
+
 
     /// <summary>
     /// Bezero guztiei erabiltzaile zerrenda eguneratua bidaltzen die.

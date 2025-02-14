@@ -169,7 +169,7 @@ namespace Cliente
                     var label = this.Controls.Find("l_activo" + (i + 1), true).FirstOrDefault() as Label;
                     if (label != null)
                     {
-                        label.Text = (usuarios[i] == clientName) ? usuarios[i] + " (Ni)" : usuarios[i];
+                        label.Text = (usuarios[i] == clientName) ? usuarios[i] + " (Yo)" : usuarios[i];
                     }
                 }
             }));

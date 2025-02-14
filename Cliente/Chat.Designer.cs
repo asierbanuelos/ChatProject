@@ -114,7 +114,7 @@
             b_desconectar.BackColor = Color.PowderBlue;
             b_desconectar.Cursor = Cursors.Hand;
             b_desconectar.Dock = DockStyle.Fill;
-            b_desconectar.Font = new Font("Verdana", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            b_desconectar.Font = new Font("Verdana", 12F, FontStyle.Bold);
             b_desconectar.Location = new Point(3, 941);
             b_desconectar.Name = "b_desconectar";
             b_desconectar.Size = new Size(267, 100);
@@ -472,7 +472,7 @@
             b_actualizar.BackColor = Color.PowderBlue;
             b_actualizar.Cursor = Cursors.Hand;
             b_actualizar.Dock = DockStyle.Fill;
-            b_actualizar.Font = new Font("Verdana", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            b_actualizar.Font = new Font("Verdana", 12F, FontStyle.Bold);
             b_actualizar.Location = new Point(3, 941);
             b_actualizar.Name = "b_actualizar";
             b_actualizar.Size = new Size(269, 100);
